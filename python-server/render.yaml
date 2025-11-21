@@ -1,0 +1,14 @@
+# Render configuration file (opcional)
+services:
+  - type: web
+    name: customer-intelligence-ml-api
+    runtime: docker
+    dockerfilePath: python-server/Dockerfile
+    dockerContext: .
+    envVars:
+      - key: PYTHONUNBUFFERED
+        value: "1"
+      - key: PORT
+        value: "8000"
+    healthCheckPath: /health
+    autoDeploy: true

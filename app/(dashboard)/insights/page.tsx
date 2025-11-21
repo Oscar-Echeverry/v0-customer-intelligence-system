@@ -49,10 +49,13 @@ export default function InsightsPage() {
 
   const fetchInsights = async () => {
     try {
-      const data = await apiClient.get<InsightsSummary>("/api/v1/insights/summary")
+      // FIX: quitar /api/v1 porque apiClient ya lo agrega
+      const data = await apiClient.get<InsightsSummary>("/insights/summary")
+
       setInsights(data)
     } catch (error) {
       console.error("[v0] Error fetching insights:", error)
+
       // Fallback de demo
       setInsights({
         text: `Basado en el análisis de los datos recientes:
@@ -65,7 +68,7 @@ export default function InsightsPage() {
 
 • Se detectaron 8 clientes en alto riesgo de abandono, con una pérdida potencial de $12.5M COP.
 
-• La urgencia promedio de los leads es de 3.8/5, sugiriendo un mercado con necesidades inmediatas.
+• La urgencia promedio de los leads es de 3.8/5.
 
 Recomendaciones:
 - Intensificar esfuerzos en canales de alto rendimiento como WhatsApp Bot
@@ -94,8 +97,8 @@ Recomendaciones:
     setIsRefreshing(false)
   }
 
-  const formatInsightText = (text: string) => {
-    return text.split("\n").map((line, index) => {
+  const formatInsightText = (text: string) =>
+    text.split("\n").map((line, index) => {
       const trimmed = line.trim()
 
       if (trimmed.startsWith("•")) {
@@ -136,7 +139,6 @@ Recomendaciones:
         </p>
       )
     })
-  }
 
   if (isLoading) {
     return (
@@ -192,7 +194,7 @@ Recomendaciones:
         </Button>
       </div>
 
-      {/* Main Insights Card */}
+      {/* Insights Card */}
       <Card className="border-0 bg-slate-900/80 shadow-xl shadow-emerald-900/30 backdrop-blur">
         <CardHeader className="border-b border-slate-800 bg-gradient-to-r from-emerald-500/10 via-slate-900 to-sky-500/10">
           <div className="flex items-center gap-3">
@@ -204,8 +206,7 @@ Recomendaciones:
                 Análisis inteligente
               </CardTitle>
               <CardDescription className="text-xs text-slate-200/80">
-                Insights generados automáticamente con base en tus datos de leads,
-                clientes y riesgo de churn.
+                Insights generados automáticamente con base en datos reales.
               </CardDescription>
             </div>
           </div>
@@ -227,7 +228,7 @@ Recomendaciones:
       {conversionData.length > 0 && (
         <ChartCard
           title="Tasa de conversión por canal"
-          description="Comparación del rendimiento de los principales canales de captación"
+          description="Comparación de rendimiento de los principales canales"
           className="border-0 bg-slate-900/80 text-slate-50 shadow-xl shadow-emerald-900/30"
         >
           <ResponsiveContainer width="100%" height={320}>
@@ -242,9 +243,7 @@ Recomendaciones:
                 tickFormatter={(v: number) => `${v.toFixed(0)}%`}
               />
               <Tooltip
-                formatter={(value: any) =>
-                  `${Number(value).toFixed(1)}%`
-                }
+                formatter={(value: any) => `${Number(value).toFixed(1)}%`}
                 contentStyle={{
                   backgroundColor: "#020617",
                   border: "1px solid #1f2937",
@@ -279,7 +278,7 @@ Recomendaciones:
                   {(insights.stats.avg_lead_score * 100).toFixed(0)}%
                 </div>
                 <p className="mt-1 text-xs text-slate-400">
-                  Calidad global de la captación actual.
+                  Calidad global de la captación.
                 </p>
               </CardContent>
             </Card>
@@ -315,7 +314,7 @@ Recomendaciones:
                   {insights.stats.high_risk_count}
                 </div>
                 <p className="mt-1 text-xs text-slate-400">
-                  Requieren acciones de retención inmediatas.
+                  Requieren acciones inmediatas.
                 </p>
               </CardContent>
             </Card>
