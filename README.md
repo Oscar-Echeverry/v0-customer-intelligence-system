@@ -331,14 +331,6 @@ Este proyecto está bajo la Licencia MIT. Ver el archivo [LICENSE](LICENSE) para
 - Comunidad de desarrolladores del Quindío
 - Agencias de marketing que inspiraron este proyecto
 
-
----
-
-## 🔗 Enlaces Útiles
-
-- [Demo en Vivo](https://customer-intelligence-system.vercel.app)
-- [Documentación API](https://api.customer-intelligence.com/docs)
-
 ---
 
 **Desarrollado con ❤️ en el Quindío, Colombia 🇨🇴**
