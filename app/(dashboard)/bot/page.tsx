@@ -33,7 +33,7 @@ interface LeadPrediction {
 type QuestionStep = "name" | "city" | "budget" | "urgency" | "service_type" | "complete"
 
 const QUESTIONS = {
-  name: "¡Hola! Soy el asistente de Quindío AI. ¿Cuál es tu nombre?",
+  name: "¡Hola! Soy el asistente de InnovAI. ¿Cuál es tu nombre?",
   city: "¿De qué ciudad nos escribes?",
   budget: "¿Cuál es tu presupuesto mensual aproximado para marketing digital? (en COP)",
   urgency: "¿Qué tan urgente es tu necesidad? (escala de 1 a 5, donde 5 es muy urgente)",
@@ -131,13 +131,14 @@ export default function BotPage() {
         console.error("[v0] Warning: Failed to save lead, but prediction was successful:", saveError)
       }
 
+      const responseMessages: Record<LeadPrediction["quality_label"], string> = {
+        caliente: `Gracias, ${data.name}. Un asesor te contactará en los próximos 25 minutos.`,
+        tibio: `Gracias, ${data.name}. Un asesor te escribirá en aproximadamente 1 hora y 30 minutos.`,
+        frío: `Gracias, ${data.name}. Te contactaremos en las próximas 6 horas.`,
+      }
+
       setTimeout(() => {
-        addMessage(
-          `Gracias, ${data.name}. Te clasificamos como lead ${predictionResult.quality_label} (score ${predictionResult.quality_score.toFixed(
-            2,
-          )}). Un asesor te contactará pronto.`,
-          "bot",
-        )
+        addMessage(responseMessages[predictionResult.quality_label], "bot")
       }, 350)
     } catch (err) {
       console.error("[v0] Error predicting lead quality:", err)
